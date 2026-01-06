@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ay ladki, will you be mine? 💍</title>
+  <meta name="theme-color" content="#ff4d6d" />
+  <style>
+    :root{
+      --pink:#ff4d6d;--rose:#ff8fa3;--bg1:#0f1020;--bg2:#1a1b34;--text:#fff;--muted:#c9c9d6;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Inter,Arial,sans-serif;
+      color:var(--text);
+      background: radial-gradient(60% 80% at 70% 10%, rgba(255,77,109,.15), transparent),
+                  radial-gradient(60% 80% at 10% 90%, rgba(255,143,163,.15), transparent),
+                  linear-gradient(160deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+    }
+    .stars{
+      position:fixed;inset:0;pointer-events:none;opacity:.4;filter:blur(.2px);
+      background-image:radial-gradient(#fff 1px, transparent 1px);
+      background-size:3px 3px;mask-image:radial-gradient(circle at 50% 50%, #000 20%, transparent 70%);
+    }
+    .container{
+      min-height:100%;display:grid;place-items:center;padding:24px;
+    }
+    .card{
+      width:100%;max-width:680px;background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px);
+      border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,.4);
+      padding:28px 28px 34px;position:relative;overflow:hidden;
+    }
+    .badge{
+      position:absolute;top:14px;left:14px;font-size:12px;color:#fff;
+      background:linear-gradient(45deg,var(--rose),var(--pink));padding:6px 10px;border-radius:999px;
+      box-shadow:0 6px 20px rgba(255,77,109,.45);
+    }
+    h1{
+      margin:18px 0 6px;font-size:clamp(28px,4.6vw,44px);line-height:1.1;letter-spacing:.3px;
+      text-align:center;
+    }
+    p.lead{margin:0 auto 18px;max-width:56ch;text-align:center;color:var(--muted);}
+    .photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:12px 0 8px}
+    .ph{aspect-ratio:1/1;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.16);background:#111;position:relative}
+    .ph>img{width:100%;height:100%;object-fit:cover;display:block;}
+    .actions{display:flex;gap:14px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+    .btn{
+      --b:var(--pink);
+      padding:14px 22px;border-radius:999px;border:1px solid color-mix(in oklab, var(--b), #000 12%);
+      background:linear-gradient(180deg,color-mix(in oklab,var(--b),#fff 6%),var(--b));
+      color:#fff;text-decoration:none;font-weight:700;letter-spacing:.3px;cursor:pointer;
+      box-shadow:0 12px 30px rgba(255,77,109,.35), inset 0 1px 0 rgba(255,255,255,.35);
+      transition:transform .08s ease, box-shadow .2s ease; user-select:none;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn:active{transform:translateY(1px)}
+    .btn-outline{
+      --b:#2b2c4a;background:linear-gradient(180deg,#232444,#1a1b34);
+      border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
+    }
+    .btn-ghost{background:transparent;border:1px dashed rgba(255,255,255,.25);}
+
+    .floating-hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+    .heart{position:absolute;opacity:.75;animation:floatUp linear forwards;}
+    @keyframes floatUp{from{transform:translateY(20vh)} to{transform:translateY(-120vh)}}
+
+    .note{margin:10px auto 0;max-width:58ch;color:var(--muted);text-align:center;font-size:14px}
+
+    .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+      background:#101226;color:#fff;border:1px solid rgba(255,255,255,.14);padding:10px 14px;border-radius:999px;display:none}
+
+    .confetti{position:fixed;inset:0;pointer-events:none}
+
+    .tagline{display:flex;justify-content:center;gap:6px;align-items:center;margin-top:8px;color:#cfd0ff;font-size:13px}
+    .tagline .dot{width:6px;height:6px;border-radius:50%;background:var(--rose);box-shadow:0 0 14px var(--rose)}
+
+    .footer{margin-top:24px;text-align:center;color:#9ea0c7;font-size:12px}
+    .footer a{color:#ffd1db}
+
+    /* Playful no button */
+    .runaway{position:relative}
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+  <canvas class="confetti" id="confetti"></canvas>
+  <div class="floating-hearts" id="hearts"></div>
+
+  <div class="container">
+    <div class="card" id="card">
+      <div class="badge">ay ladki for yoou ❤️</div>
+      <h1 id="title">ay ladki, will you be mine?</h1>
+      <p class="lead">ay ladki, I know you like me… maybe you still do, or maybe you did before.<br>
+But I want to tell you something from my heart –
+<br>I truly like you, and I want you in my life.
+Will you be mine? 💖<br><h6> Your name here</h6></p>
+
+      <!-- Optional photos row (add your image URLs below) -->
+      <div class="photos" id="photos"></div>
+
+      <div class="actions">
+        <button id="yesBtn" class="btn">Yes, forever 💍</button>
+        <button id="noBtn" class="btn btn-outline runaway">No 🙈</button>
+        <button id="maybeBtn" class="btn btn-ghost">Maybe… tell me more ☺️</button>
+      </div>
+
+      <div class="tagline"><span class="dot"></span> made with love for <strong>ay ladki</strong></div>
+      <div class="footer">ay ladki, do you know what’s the most dangerous thing about you?<br> <br>Your smile – because it makes hearts skip a beat. <br>Your eyes – because they hide a thousand untold stories.<br>Your voice – because it’s sweeter than music.<br>And your vibe – because it makes everything around you peaceful. 💫</div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Opening WhatsApp/SMS so you get the reply…</div>
+
+  <script>
+    // =================== SETTINGS (edit these) ===================
+    const SETTINGS = {
+      yourName: "xxxxx",           // your name
+      herName: "ay ladki",           // her name displayed
+      yourPhone: "xxxxxxxx",   // <-- put YOUR phone with country code (e.g. 91xxxxxxxxxx for India)
+      yourEmail: "xxxxx@gmail.com",               // optional fallback email
+      photos: [                     // optional photo URLs (max 6 looks nice)
+        // "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=1600",
+      ],
+      messageText: "ladki said YES! 💖 — from the proposal site",
+    };
+    // ============================================================
+
+    // Title personalization
+    document.getElementById('title').textContent = `${SETTINGS.herName}, will you be mine?`;
+
+    // Photos render
+    const photosWrap = document.getElementById('photos');
+    if (SETTINGS.photos && SETTINGS.photos.length){
+      for (const src of SETTINGS.photos.slice(0,6)){
+        const d = document.createElement('div'); d.className='ph';
+        const im = document.createElement('img'); im.loading='lazy'; im.src=src; im.alt='memory';
+        d.appendChild(im); photosWrap.appendChild(d);
+      }
+    }
+
+    // Floating hearts generator
+    const heartWrap = document.getElementById('hearts');
+    const makeHeart = () => {
+      const h = document.createElement('div');
+      h.className = 'heart';
+      const size = 14 + Math.random()*20;
+      h.style.left = Math.random()*100 + 'vw';
+      h.style.bottom = '-10vh';
+      h.style.fontSize = size + 'px';
+      h.style.animationDuration = (8 + Math.random()*6) + 's';
+      h.textContent = ['💖','💘','💞','💗','❤️','🩷'][Math.floor(Math.random()*6)];
+      heartWrap.appendChild(h);
+      setTimeout(()=>h.remove(), 16000);
+    };
+    setInterval(makeHeart, 600);
+    for(let i=0;i<18;i++) setTimeout(makeHeart, i*250);
+
+    // Playful NO button: runs away on hover
+    const noBtn = document.getElementById('noBtn');
+    noBtn.addEventListener('mouseover', () => {
+      const { innerWidth:w, innerHeight:h } = window;
+      const x = Math.random()*(w-140);
+      const y = Math.random()*(h-80);
+      noBtn.style.position='fixed';
+      noBtn.style.left = x + 'px';
+      noBtn.style.top  = y + 'px';
+    });
+
+    // Confetti (canvas) when YES
+    const cvs = document.getElementById('confetti');
+    const ctx = cvs.getContext('2d');
+    let pieces=[]; let raf=0;
+    const resize=()=>{cvs.width=innerWidth; cvs.height=innerHeight};
+    addEventListener('resize', resize); resize();
+    function burst(){
+      pieces = Array.from({length: 180}).map(()=>({
+        x: cvs.width/2, y: cvs.height/2 - 60,
+        dx: (Math.random()-0.5)*10, dy: Math.random()*-8-3,
+        g: 0.18+Math.random()*0.08, s: 3+Math.random()*3, r: Math.random()*Math.PI*2
+      }));
+      cancelAnimationFrame(raf); loop();
+    }
+    function loop(){
+      ctx.clearRect(0,0,cvs.width,cvs.height);
+      for(const p of pieces){
+        p.x += p.dx; p.y += p.dy; p.dy += p.g; p.r += 0.06;
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r);
+        ctx.fillStyle = `hsl(${Math.random()*360},90%,60%)`;
+        ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*2);
+        ctx.restore();
+      }
+      raf = requestAnimationFrame(loop);
+    }
+
+    // YES click -> confetti + open WhatsApp (fallback SMS/Mail)
+    const yesBtn = document.getElementById('yesBtn');
+    const toast = document.getElementById('toast');
+    function showToast(msg){ toast.textContent = msg; toast.style.display='block'; setTimeout(()=>toast.style.display='none', 2200); }
+
+    function openWhatsApp(){
+      const text = encodeURIComponent(`${SETTINGS.herName} tapped YES for ${SETTINGS.yourName}! 💍\n${SETTINGS.messageText}\nTime: ${new Date().toLocaleString()}`);
+      const link = `https://wa.me/${SETTINGS.yourPhone}?text=${text}`;
+      window.location.href = link;
+    }
+
+    function openSMSFallback(){
+      const smsText = encodeURIComponent(`${SETTINGS.herName} said YES to ${SETTINGS.yourName}! 💖`);
+      const smsLink = `sms:+${SETTINGS.yourPhone}?&body=${smsText}`;
+      window.location.href = smsLink;
+    }
+
+    function openMailFallback(){
+      if(!SETTINGS.yourEmail) return;
+      const subject = encodeURIComponent(`${SETTINGS.herName} said YES!`);
+      const body = encodeURIComponent(`From the proposal page. Time: ${new Date().toLocaleString()}`);
+      window.location.href = `mailto:${SETTINGS.yourEmail}?subject=${subject}&body=${body}`;
+    }
+
+    yesBtn.addEventListener('click', () => {
+      burst();
+      showToast('Opening WhatsApp/SMS so you get the reply…');
+      // Try WhatsApp; if user cancels or not installed, SMS fallback after a tiny delay
+      setTimeout(()=>{
+        try{ openWhatsApp(); }catch(e){ openSMSFallback(); }
+        // Secondary safety fallback
+        setTimeout(()=>{ openSMSFallback(); setTimeout(openMailFallback, 1200); }, 1600);
+      }, 250);
+    });
+
+    // Maybe button -> cute message
+    document.getElementById('maybeBtn').addEventListener('click', ()=>{
+      alert('No rush. Take your time — I\'ll keep trying to make you smile. 💗');
+    });
+  </script>
+</body>
+</html>
