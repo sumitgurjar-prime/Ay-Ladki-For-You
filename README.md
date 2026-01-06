@@ -1,3 +1,7 @@
-# Ay-Ladki-For-You
-This is the simple HTML index to propose your crush
-this is my 1st project- create by ai
+# Ay-Ladki-For-You ❤️
+
+This is my 1st HTML project
+A simple webpage created as a fun proposal idea.
+
+## How to use-
+Open "index.html" in any browser
